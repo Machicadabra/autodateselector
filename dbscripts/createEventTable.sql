@@ -1,0 +1,6 @@
+CREATE TABLE event (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20),
+    dateInGMT DATE NOT NULL,
+    durationInSeconds INT(10) NOT NULL
+);
