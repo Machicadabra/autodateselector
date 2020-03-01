@@ -1,7 +1,7 @@
 const Attendee = require('../model/Attendee');
 const express = require('express');
 const router = express.Router();
-const attendeeService = require('../../service/Attendee');
+const attendeeService = require('../service/Attendee');
 
 router.get('/:id', function(req, res, next) {
   var service = new attendeeService();

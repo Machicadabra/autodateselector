@@ -1,4 +1,4 @@
-const mysqlconnection = require('../db/mysqlconnection');
+const mysqlconnection = require('../../db/mysqlconnection');
 
 class Event {
 
