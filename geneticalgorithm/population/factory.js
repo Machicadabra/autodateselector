@@ -7,13 +7,13 @@ class Factory {
         this.events = events;
         this.startDateInGMT = startDateInGMT;
         this.endDateInGMT = endDateInGMT;
-        this.individualFactory = new IndividualFactory();
+        this.individualFactory = new IndividualFactory(events, startDateInGMT, endDateInGMT);
     }
 
     buildUnlimitedPopulation(numberOfIndividuals) {
         let individuals = [];
         for (let i = 0; i < numberOfIndividuals; i++) {
-            individuals.push(this.individualFactory.buildRandomIndividual(this.events, this.startDateInGMT, this.endDateInGMT));
+            individuals.push(this.individualFactory.buildRandomIndividual());
         }
         return new BasicPopulation(individuals);
     }
@@ -21,7 +21,7 @@ class Factory {
     buildPopulationLimitedByDate(numberOfIndividuals) {
         let individuals = [];
         for (let i = 0; i < numberOfIndividuals; i++) {
-            individuals.push(this.individualFactory.buildRandomIndividualThatDoNotEndAfterEndDate(this.events, this.startDateInGMT, this.endDateInGMT));
+            individuals.push(this.individualFactory.buildRandomIndividualThatDoNotEndAfterEndDate());
         }
         return new BasicPopulation(individuals);
     }

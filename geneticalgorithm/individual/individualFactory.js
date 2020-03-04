@@ -2,18 +2,24 @@ const Individual = require('./individual');
 
 class IndividualFactory {
 
-    buildRandomIndividual(events, startDateInGMT, endDateInGMT) {
-        let randomPositionedEvents = events.map(event => {
+    constructor(events, startDateInGMT, endDateInGMT) {
+        this.events = events;
+        this.startDateInGMT = startDateInGMT;
+        this.endDateInGMT = endDateInGMT;
+    }
+
+    buildRandomIndividual() {
+        return randomPositionedEvents = this.events.map(event => {
             let clonedEvent = {...event};
-            clonedEvent.startDateInGMT(this._calculateRandomDateBetweenStartAndEnd(event, startDateInGMT, endDateInGMT));
+            clonedEvent.startDateInGMT(this._calculateRandomDateBetweenStartAndEnd(this.event, this.startDateInGMT, this.endDateInGMT));
             return clonedEvent;
         });
     }
 
-    buildRandomIndividualThatDoNotEndAfterEndDate(events, startDateInGMT, endDateInGMT) {
-        let randomPositionedEvents = events.map(event => {
+    buildRandomIndividualThatDoNotEndAfterEndDate() {
+        return randomPositionedEvents = this.events.map(event => {
             let clonedEvent = {...event};
-            clonedEvent.startDateInGMT(this._calculateRandomDateThatDoNotEndAfterEndDate(event, startDateInGMT, endDateInGMT));
+            clonedEvent.startDateInGMT(this._calculateRandomDateThatDoNotEndAfterEndDate(this.event, this.startDateInGMT, this.endDateInGMT));
             return clonedEvent;
         });
     }
