@@ -26,6 +26,10 @@ class Event {
         let endTimeStamp = this.dateInGMT.getTime() + this.durationInSeconds * 1000;
         return new Date(endTimeStamp);
     }
+
+    setDateInGMT(dateInGMT) {
+        this.dateInGMT = dateInGMT;
+    }
 }
 
 module.exports = Event;
