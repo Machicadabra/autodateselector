@@ -1,13 +1,16 @@
+const Population = require('../population/basic');
+const Individual = require('../individual/individual');
+
 class Basic {
 
     cross(population) {
-        let newPopulation = [];
-        for (let i=1; i<population.length; i = i+2) {
-            let newIndividuals = this.execute(population[i - 1], population[i - 2]);
-            newPopulation.push(newIndividuals.child1);
-            newPopulation.push(newIndividuals.child2);
+        let newIndividualsForPopulation = [];
+        for (let i = 2; i < population.getIndividuals().length + 2; i = i + 2) {
+            let newIndividuals = this.execute(population.getIndividuals()[i - 1], population.getIndividuals()[i - 2]);
+            newIndividualsForPopulation.push(newIndividuals.child1);
+            newIndividualsForPopulation.push(newIndividuals.child2);
         }
-        return newPopulation;
+        return new Population(newIndividualsForPopulation);
     }
 
     execute(individual1, individual2) {
@@ -17,7 +20,7 @@ class Basic {
         let child1 = [];
         let child2 = [];
         
-        individual1Events.array.forEach((event, index) => {
+        individual1Events.forEach((event, index) => {
             if ((Math.random() * 2) > 1) {
                 child1.push(event);
                 child2.push(individual2Events[index]);
@@ -28,8 +31,8 @@ class Basic {
         });
 
         return {
-            child1: child1,
-            child2: child2
+            child1: new Individual(child1),
+            child2: new Individual(child2)
         };
     }
 

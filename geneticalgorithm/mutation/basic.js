@@ -9,7 +9,7 @@ class Basic {
     }
 
     mutate(population) {
-        population.getIndividuals().array.forEach(individual => {
+        population.getIndividuals().forEach(individual => {
             if (Math.random() < this.mutationProbability) {
                 this._mutateIndividual(individual);
             }
@@ -19,7 +19,7 @@ class Basic {
     _mutateIndividual(individual) {
         let events = individual.getEvents();
         let numberOfEvents = events.length;
-        this._mutateEvent(Math.round(Math.random() * numberOfEvents));
+        this._mutateEvent(events[Math.floor(Math.random() * numberOfEvents)]);
     }
 
     _mutateEvent(event) {

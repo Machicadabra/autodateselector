@@ -1,3 +1,4 @@
+const Population = require('../population/basic');
 const DEFAULT_NUMBER_OF_ELITES = 10;
 
 class Basic {
@@ -9,26 +10,26 @@ class Basic {
     }
     
     fight(population) {
-        population.sort((individual1, individual2) => {
-            return this.evaluationFunction(individual1) - this.evaluationFunction(individual2);
+        population.getIndividuals().sort((individual1, individual2) => {
+            return this.evaluationFunction.evaluate(individual1) - this.evaluationFunction.evaluate(individual2);
         });
-        let newPopulation = [];
+        let newIndividuals = [];
         //best individuals are populated to the next iteration automatically
-        for (let i = 0; i < Math.min(population.lenght, DEFAULT_NUMBER_OF_ELITES); i++) {
-            newPopulation.push(population.splice(i, 1));
+        for (let i = 0; i < Math.min(population.getIndividuals().length, DEFAULT_NUMBER_OF_ELITES); i++) {
+            newIndividuals.push(population.getIndividuals().splice(i, 1)[0]);
         }
 
-        while (population.length) {
-            let individual1 = population.splice(Math.round(Math.random() * (population.length - 1)), 1);
-            let individual2 = population.splice(Math.round(Math.random() * (population.length - 1)), 1);
-            newPopulation.push(this._doCombat(individual1, individual2));
-            newPopulation.push(this.individualFactory.buildRandomIndividual())
+        while (population.getIndividuals().length) {
+            let individual1 = population.getIndividuals().splice(Math.round(Math.random() * (population.getIndividuals().length - 1)), 1)[0];
+            let individual2 = population.getIndividuals().splice(Math.round(Math.random() * (population.getIndividuals().length - 1)), 1)[0];
+            newIndividuals.push(this._doCombat(individual1, individual2));
+            newIndividuals.push(this.individualFactory.buildRandomIndividual())
         }
-        return newPopulation;
+        return new Population(newIndividuals);
     }
 
     _doCombat(individual1, individual2) {
-        return this.evaluationFunction(individual1) > this.evaluationFunction(individual2)
+        return this.evaluationFunction.evaluate(individual1) > this.evaluationFunction.evaluate(individual2)
             ? individual1
             : individual2;
     }

@@ -1,4 +1,5 @@
 const Individual = require('./individual');
+const Event = require('../../event/model/Event');
 
 class IndividualFactory {
 
@@ -9,29 +10,31 @@ class IndividualFactory {
     }
 
     buildRandomIndividual() {
-        return randomPositionedEvents = this.events.map(event => {
-            let clonedEvent = {...event};
-            clonedEvent.startDateInGMT(this._calculateRandomDateBetweenStartAndEnd(this.event, this.startDateInGMT, this.endDateInGMT));
+        let randomPositionedEvents = this.events.map(event => {
+            let clonedEvent = new Event(event.getId(), event.getDateInGMT(), event.getDurationInSeconds(), event.getAttendees());
+            clonedEvent.setDateInGMT(this._calculateRandomDateBetweenStartAndEnd(this.startDateInGMT, this.endDateInGMT));
             return clonedEvent;
         });
+        return new Individual(randomPositionedEvents);
     }
 
     buildRandomIndividualThatDoNotEndAfterEndDate() {
-        return randomPositionedEvents = this.events.map(event => {
-            let clonedEvent = {...event};
-            clonedEvent.startDateInGMT(this._calculateRandomDateThatDoNotEndAfterEndDate(this.event, this.startDateInGMT, this.endDateInGMT));
+        let randomPositionedEvents = this.events.map(event => {
+            let clonedEvent = new Event(event.getId(), event.getDateInGMT(), event.getDurationInSeconds(), event.getAttendees());
+            clonedEvent.setDateInGMT(this._calculateRandomDateThatDoNotEndAfterEndDate(clonedEvent.getDurationInSeconds(), this.startDateInGMT, this.endDateInGMT));
             return clonedEvent;
         });
+        return new Individual(randomPositionedEvents);
     }
 
-    _calculateRandomDateBetweenStartAndEnd(event, startDateInGMT, endDateInGMT) {
+    _calculateRandomDateBetweenStartAndEnd(startDateInGMT, endDateInGMT) {
         let availableRangeInSeconds = endDateInGMT.getTime() - startDateInGMT.getTime();
         let dateOffset = Math.random() * availableRangeInSeconds;
         return new Date(dateOffset);
     }
 
-    _calculateRandomDateThatDoNotEndAfterEndDate(event, startDateInGMT, endDateInGMT) {
-        let availableRangeInSeconds = endDateInGMT.getTime() - startDateInGMT.getTime() - event.getDurationInSeconds() * 1000;
+    _calculateRandomDateThatDoNotEndAfterEndDate(durationInSeconds, startDateInGMT, endDateInGMT) {
+        let availableRangeInSeconds = endDateInGMT.getTime() - startDateInGMT.getTime() - durationInSeconds * 1000;
         let dateOffset = Math.random() * availableRangeInSeconds;
         return new Date(dateOffset);
     }
