@@ -1,5 +1,6 @@
 const DEFAULT_MUTATION_PROBABILITY = 0.01;
 const MAX_MILLISECONDS_TO_MUTATE = 900000;
+const NUMBER_OF_ELITES = 10;
 
 class Basic {
 
@@ -9,8 +10,8 @@ class Basic {
     }
 
     mutate(population) {
-        population.getIndividuals().forEach(individual => {
-            if (Math.random() < this.mutationProbability) {
+        population.getIndividuals().forEach((individual, index) => {
+            if (index > NUMBER_OF_ELITES && Math.random() < this.mutationProbability) {
                 this._mutateIndividual(individual);
             }
         });

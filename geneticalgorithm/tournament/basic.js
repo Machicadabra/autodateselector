@@ -10,9 +10,7 @@ class Basic {
     }
     
     fight(population) {
-        population.getIndividuals().sort((individual1, individual2) => {
-            return this.evaluationFunction.evaluate(individual1) - this.evaluationFunction.evaluate(individual2);
-        });
+        population.sort();
         let newIndividuals = [];
         //best individuals are populated to the next iteration automatically
         for (let i = 0; i < Math.min(population.getIndividuals().length, DEFAULT_NUMBER_OF_ELITES); i++) {
@@ -25,7 +23,9 @@ class Basic {
             newIndividuals.push(this._doCombat(individual1, individual2));
             newIndividuals.push(this.individualFactory.buildRandomIndividual())
         }
-        return new Population(newIndividuals);
+        let newPopulation = new Population(newIndividuals);
+        newPopulation.sort();
+        return newPopulation;
     }
 
     _doCombat(individual1, individual2) {

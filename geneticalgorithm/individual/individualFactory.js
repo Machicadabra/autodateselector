@@ -30,13 +30,13 @@ class IndividualFactory {
     _calculateRandomDateBetweenStartAndEnd(startDateInGMT, endDateInGMT) {
         let availableRangeInSeconds = endDateInGMT.getTime() - startDateInGMT.getTime();
         let dateOffset = Math.random() * availableRangeInSeconds;
-        return new Date(dateOffset);
+        return new Date(startDateInGMT.getTime() + dateOffset);
     }
 
     _calculateRandomDateThatDoNotEndAfterEndDate(durationInSeconds, startDateInGMT, endDateInGMT) {
         let availableRangeInSeconds = endDateInGMT.getTime() - startDateInGMT.getTime() - durationInSeconds * 1000;
         let dateOffset = Math.random() * availableRangeInSeconds;
-        return new Date(dateOffset);
+        return new Date(startDateInGMT.getTime() + dateOffset);
     }
 }
 

@@ -1,7 +1,14 @@
 class Basic {
     
-    evaluate() {
-        return Math.round(Math.random() * 10);
+    evaluate(individual) {
+        if (!individual.hasScore()) {
+            individual.setScore(this._calculateScore());
+        }
+        return individual.getScore();
+    }
+
+    _calculateScore() {
+        return Math.round(Math.random() * 1000);
     }
 
 }
