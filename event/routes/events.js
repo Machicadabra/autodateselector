@@ -12,9 +12,17 @@ router.get('/:id', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
   var service = new eventService();
-  service.getAll().then(value => {
-    res.send(value);
-  })
+  var loadedEvents = [];
+  service.getAll().then(events => {
+    loadedEvents = events;
+    let promises = events.map(event => {
+        return service.getAllAttendesByEventId(event.getId()).then(attendees => event.setAttendees(attendees));
+      }
+    )
+    return Promise.all(promises);
+  }).then(attendees => {
+    res.send(loadedEvents);
+  });
 });
 
 router.post('/', function(req, res, next) {
