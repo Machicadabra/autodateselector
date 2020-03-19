@@ -30,6 +30,10 @@ class Event {
     setDateInGMT(dateInGMT) {
         this.dateInGMT = dateInGMT;
     }
+
+    setAttendees(attendees) {
+        this.attendees = attendees;
+    }
 }
 
 module.exports = Event;
