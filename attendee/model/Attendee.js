@@ -7,6 +7,7 @@ class Attendee {
     constructor(id, name) {
         this.id = id;
         this.name = name;
+        this.events = [];
     }
 
     getId() {
@@ -15,6 +16,18 @@ class Attendee {
 
     getName() {
         return this.name;
+    }
+
+    setEvents(events) {
+        this.events = events;
+    }
+
+    addEvent(event) {
+        this.events.push(event);
+    }
+
+    getEvents() {
+        return this.events;
     }
 }
 

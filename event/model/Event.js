@@ -34,6 +34,14 @@ class Event {
     setAttendees(attendees) {
         this.attendees = attendees;
     }
+
+    overlaps(event){
+        if (this.getId() === event.getId()) {
+            return false;
+        }
+        return this.getDateInGMT().getTime() < event.getEndDateInGMT().getTime()
+        && this.getEndDateInGMT().getTime() > event.getDateInGMT().getTime();
+    }
 }
 
 module.exports = Event;

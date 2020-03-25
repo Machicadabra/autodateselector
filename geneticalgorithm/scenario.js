@@ -4,6 +4,7 @@ const IndividualFactory = require('./individual/individualFactory');
 const BasicTournament = require('./tournament/basic');
 const BasicCross = require('./cross/basic');
 const BasicMutation = require('./mutation/basic');
+const FifteenMinutesMutation = require('./mutation/fifteenMinutesMutation');
 const Evaluationfunction = require('./evaluation/basic');
 
 class Scenario {
@@ -13,8 +14,12 @@ class Scenario {
         this.numberOfElites = 4;
         this.events = events;
         this.startDate = new Date();
+        this.startDate.setHours(10);
+        this.startDate.setMinutes(0);
+        this.startDate.setSeconds(0);
+        this.startDate.setMilliseconds(0);
         this.evaluationFunction = new Evaluationfunction();
-        this.endDate = new Date(this.startDate.getTime() + 1000 * 4 * 60 * 60);
+        this.endDate = new Date(this.startDate.getTime() + 1000 * 8 * 60 * 60);
         /*this.mutation = mutation;
         this.evaluation = evaluation;
         this.tournament = tournament;*/
@@ -24,7 +29,8 @@ class Scenario {
         this.populationFactory = new PopulationFactory(this.events, this.startDate, this.endDate);
         this.tournament = new BasicTournament(this.evaluationFunction, this.numberOfElites, this.individualFactory);
         this.cross = new BasicCross();
-        this.mutation = new BasicMutation();
+        //this.mutation = new BasicMutation();
+        this.mutation = new FifteenMinutesMutation();
     }
 
     run() {
@@ -32,12 +38,17 @@ class Scenario {
         ${this.startDate}
         ${this.endDate}`);
         let population = this.populationFactory.buildPopulationLimitedByDate(this.populationSize);
+        let lastHighScore = 0;
         for (let i = 0; i < this.iterations; i++) {
             population = this.tournament.fight(population);
             population = this.cross.cross(population);
             this.mutation.mutate(population);
             population.sort();
-            console.log(`Best individual for iteration ${i}: ${population.getIndividuals()[0].getScore()}`);
+            let iterationBestScore = population.getIndividuals()[0].getScore();
+            if (iterationBestScore > lastHighScore) {
+                console.log(`Best individual for iteration ${i}: ${iterationBestScore}`);
+                lastHighScore = iterationBestScore;
+            }
         }
         //this._printBesIndividual(population);
         //this._printAttendeesEvents(population.getIndividuals[0]);
